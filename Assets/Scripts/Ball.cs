@@ -11,6 +11,8 @@ public class Ball : MonoBehaviour {
 
     private Paddle paddle;
 
+    private bool hasGameStarted = false;
+
     private void Start() {
         SetDefaults();
         paddle = FindObjectOfType<Paddle>();
@@ -38,8 +40,15 @@ public class Ball : MonoBehaviour {
     }
 
     private void Launch() {
+        hasGameStarted = true;
         paddle.Moved -= OnPaddleMoved;
         Rigidbody2D rb = gameObject.GetComponent<Rigidbody2D>();
         rb.velocity = initialDirection.normalized * speed;
+    }
+
+    private void OnCollisionEnter2D(Collision2D other) {
+        if (hasGameStarted) {
+            GetComponent<AudioSource>().Play();
+        }
     }
 }
