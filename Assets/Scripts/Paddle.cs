@@ -9,6 +9,13 @@ public class Paddle : MonoBehaviour {
     void Update() {
         float x = Input.mousePosition.x / Screen.width * worldUnits;
         x = Mathf.Clamp(x, 1, 15);
-        transform.position = new Vector2(x, transform.position.y);
+        Vector2 newPosition = new Vector2(x, transform.position.y);
+        transform.position = newPosition;
+        if (Moved != null) {
+            Moved(newPosition);
+        }
     }
+
+    public delegate void MovedEventHandler(Vector2 position);
+    public event MovedEventHandler Moved;
 }
