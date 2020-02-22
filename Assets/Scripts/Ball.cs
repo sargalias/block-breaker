@@ -40,10 +40,12 @@ public class Ball : MonoBehaviour {
     }
 
     private void Launch() {
-        hasGameStarted = true;
-        paddle.Moved -= OnPaddleMoved;
-        Rigidbody2D rb = gameObject.GetComponent<Rigidbody2D>();
-        rb.velocity = initialDirection.normalized * speed;
+        if (!hasGameStarted) {
+            hasGameStarted = true;
+            paddle.Moved -= OnPaddleMoved;
+            Rigidbody2D rb = gameObject.GetComponent<Rigidbody2D>();
+            rb.velocity = initialDirection.normalized * speed;
+        }
     }
 
     private void OnCollisionEnter2D(Collision2D other) {
