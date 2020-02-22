@@ -9,7 +9,11 @@ public class Ball : MonoBehaviour {
     [SerializeField]
     private Vector2 initialDirection;
 
+    [SerializeField]
+    private AudioClip[] audioClips;
+
     private Paddle paddle;
+    private AudioSource audioSource;
 
     private bool hasGameStarted = false;
 
@@ -17,6 +21,7 @@ public class Ball : MonoBehaviour {
         SetDefaults();
         paddle = FindObjectOfType<Paddle>();
         SetStickToPaddle();
+        audioSource = GetComponent<AudioSource>();
     }
 
     private void Update() {
@@ -50,7 +55,8 @@ public class Ball : MonoBehaviour {
 
     private void OnCollisionEnter2D(Collision2D other) {
         if (hasGameStarted) {
-            GetComponent<AudioSource>().Play();
+            AudioClip clip = audioClips[Random.Range(0, audioClips.Length)];
+            audioSource.PlayOneShot(clip);
         }
     }
 }
