@@ -7,11 +7,15 @@ public class BlocksManager : MonoBehaviour {
 
     public void AddBlock() {
         numBlocksAlive++;
-        Debug.Log(numBlocksAlive);
     }
 
     public void DestroyBlock() {
         numBlocksAlive--;
-        Debug.Log(numBlocksAlive);
+        if (numBlocksAlive <= 0) {
+            OnAllBlocksGone();
+        }
     }
+
+    public delegate void AllBlocksGone();
+    public event AllBlocksGone OnAllBlocksGone;
 }
