@@ -17,7 +17,6 @@ public class Block : MonoBehaviour {
     }
 
     public void OnCollisionEnter2D(Collision2D collision) {
-        // return CleanupBlock();
         if (currentSpriteIdx < blockSprites.Length - 1) {
             TransitionToNextState();
         }

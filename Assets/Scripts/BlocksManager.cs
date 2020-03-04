@@ -13,15 +13,20 @@ public class BlocksManager : MonoBehaviour {
     }
 
     private void WatchBlock(Block block) {
-        block.OnBlockDestroyed += DestroyBlock;
+        block.OnBlockDestroyed += HandleBlockDestroyed;
     }
 
-    private void DestroyBlock() {
+    private void HandleBlockDestroyed() {
+        OnBlockDestroyed();
+
         numBlocksAlive--;
         if (numBlocksAlive <= 0) {
             OnAllBlocksGone();
         }
     }
+
+    public delegate void BlockDestroyed();
+    public event BlockDestroyed OnBlockDestroyed;
 
     public delegate void AllBlocksGone();
     public event AllBlocksGone OnAllBlocksGone;

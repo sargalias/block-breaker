@@ -11,12 +11,20 @@ public class Level : MonoBehaviour {
 
     private void SetupBlocksEvents() {
         blocksManager = FindObjectOfType<BlocksManager>();
+        blocksManager.OnBlockDestroyed += HandleBlockDestroyed;
         blocksManager.OnAllBlocksGone += HandleAllBlocksGone;
+    }
+
+    private void HandleBlockDestroyed() {
+        OnBlockDestroyed();
     }
 
     private void HandleAllBlocksGone() {
         OnLevelWin();
     }
+
+    public delegate void BlockDestoryed();
+    public event BlockDestoryed OnBlockDestroyed;
 
     public delegate void LevelWin();
     public event LevelWin OnLevelWin;
