@@ -4,19 +4,20 @@ using UnityEngine;
 
 public class Level : MonoBehaviour {
     private BlocksManager blocksManager;
-    private SceneLoader sceneLoader;
 
     private void Start() {
-        sceneLoader = FindObjectOfType<SceneLoader>();
         SetupBlocksEvents();
     }
 
     private void SetupBlocksEvents() {
         blocksManager = FindObjectOfType<BlocksManager>();
-        blocksManager.OnAllBlocksGone += Win;
+        blocksManager.OnAllBlocksGone += HandleAllBlocksGone;
     }
 
-    private void Win() {
-        sceneLoader.LoadNextScene();
+    private void HandleAllBlocksGone() {
+        OnLevelWin();
     }
+
+    public delegate void LevelWin();
+    public event LevelWin OnLevelWin;
 }
