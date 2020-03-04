@@ -1,9 +1,13 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using TMPro;
 
 public class Game : MonoBehaviour
 {
+    [SerializeField]
+    private TextMeshProUGUI scoreDisplay;
+
     [SerializeField]
     private int pointsPerBlockDestoryed;
 
@@ -22,6 +26,8 @@ public class Game : MonoBehaviour
         level = FindObjectOfType<Level>();
         level.OnLevelWin += HandleLevelWin;
         level.OnBlockDestroyed += HandleBlockDestroyed;
+
+        updateScore();
     }
 
     private void HandleBlockDestroyed() {
@@ -35,5 +41,10 @@ public class Game : MonoBehaviour
 
     private void Update() {
         Time.timeScale = gameSpeed;
+        updateScore();
+    }
+
+    private void updateScore() {
+        scoreDisplay.text = currentScore.ToString();
     }
 }
