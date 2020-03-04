@@ -1,15 +1,22 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
 public class BlocksManager : MonoBehaviour {
     private int numBlocksAlive = 0;
 
-    public void AddBlock() {
-        numBlocksAlive++;
+    private void Start() {
+        Block[] blocks = FindObjectsOfType<Block>();
+        Array.ForEach(blocks, WatchBlock);
+        numBlocksAlive = blocks.Length;
     }
 
-    public void DestroyBlock() {
+    private void WatchBlock(Block block) {
+        block.OnBlockDestroyed += DestroyBlock;
+    }
+
+    private void DestroyBlock() {
         numBlocksAlive--;
         if (numBlocksAlive <= 0) {
             OnAllBlocksGone();

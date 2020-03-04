@@ -14,7 +14,6 @@ public class Block : MonoBehaviour {
 
     private void Start() {
         spriteRenderer = gameObject.GetComponent<SpriteRenderer>();
-        gameObject.SendMessageUpwards("AddBlock", null, SendMessageOptions.RequireReceiver);
     }
 
     public void OnCollisionEnter2D(Collision2D collision) {
@@ -33,9 +32,11 @@ public class Block : MonoBehaviour {
     }
 
     private void CleanupBlock() {
-        Destroy(gameObject);
-        gameObject.SendMessageUpwards("DestroyBlock", null, SendMessageOptions.RequireReceiver);
-
+        OnBlockDestroyed();
         AudioSource.PlayClipAtPoint(breakSound, Camera.main.transform.position);
+        Destroy(gameObject);
     }
+
+    public delegate void BlockDestoryed();
+    public event BlockDestoryed OnBlockDestroyed;
 }
