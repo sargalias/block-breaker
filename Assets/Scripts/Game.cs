@@ -3,8 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using TMPro;
 
-public class Game : MonoBehaviour
-{
+public class Game : MonoBehaviour {
     [SerializeField]
     private TextMeshProUGUI scoreDisplay;
 
@@ -19,8 +18,26 @@ public class Game : MonoBehaviour
     private Level level;
     private SceneLoader sceneLoader;
 
-    private void Start()
-    {
+    private void Awake() {
+        int selfCount = FindObjectsOfType<Game>().Length;
+        if (selfCount > 1) {
+            Destroy(gameObject);
+        }
+        else {
+            DontDestroyOnLoad(gameObject);
+        }
+    }
+
+    private void Start() {
+        initialize();
+    }
+
+    private void Update() {
+        Time.timeScale = gameSpeed;
+        updateScore();
+    }
+
+    private void initialize() {
         sceneLoader = FindObjectOfType<SceneLoader>();
 
         level = FindObjectOfType<Level>();
@@ -30,18 +47,19 @@ public class Game : MonoBehaviour
         updateScore();
     }
 
-    private void HandleBlockDestroyed() {
-        currentScore += pointsPerBlockDestoryed;
-        Debug.Log(currentScore);
-    }
-
     private void HandleLevelWin() {
         sceneLoader.LoadNextScene();
+        initialize();
     }
 
-    private void Update() {
-        Time.timeScale = gameSpeed;
-        updateScore();
+    IEnumerator ReInitialize() {
+        yield return null;
+        initialize();
+    }
+
+    private void HandleBlockDestroyed() {
+        currentScore += pointsPerBlockDestoryed;
+        StartCoroutine("ReInitialize");
     }
 
     private void updateScore() {
