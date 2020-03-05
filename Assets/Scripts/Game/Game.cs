@@ -21,6 +21,7 @@ public class Game : MonoBehaviour {
     private void Awake() {
         int selfCount = FindObjectsOfType<Game>().Length;
         if (selfCount > 1) {
+            gameObject.SetActive(false);
             Destroy(gameObject);
         }
         else {
