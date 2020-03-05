@@ -50,7 +50,7 @@ public class Game : MonoBehaviour {
 
     private void HandleLevelWin() {
         sceneLoader.LoadNextScene();
-        initialize();
+        StartCoroutine("ReInitialize");
     }
 
     IEnumerator ReInitialize() {
@@ -60,7 +60,6 @@ public class Game : MonoBehaviour {
 
     private void HandleBlockDestroyed() {
         currentScore += pointsPerBlockDestoryed;
-        StartCoroutine("ReInitialize");
     }
 
     private void updateScore() {

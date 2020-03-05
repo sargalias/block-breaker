@@ -9,6 +9,9 @@ public class Block : MonoBehaviour {
     [SerializeField]
     private AudioClip breakSound;
 
+    [SerializeField]
+    private GameObject blockDestroyVFX;
+
     private int currentSpriteIdx = 0;
     private SpriteRenderer spriteRenderer;
 
@@ -32,8 +35,14 @@ public class Block : MonoBehaviour {
 
     private void CleanupBlock() {
         OnBlockDestroyed();
+        TriggerDestroyVFX();
         AudioSource.PlayClipAtPoint(breakSound, Camera.main.transform.position);
         Destroy(gameObject);
+    }
+
+    private void TriggerDestroyVFX() {
+        GameObject sparkles = Instantiate(blockDestroyVFX, transform.position, transform.rotation);
+        Destroy(sparkles, 1f);
     }
 
     public delegate void BlockDestoryed();
