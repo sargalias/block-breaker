@@ -4,9 +4,13 @@ using UnityEngine;
 
 public class BoundaryBottom : MonoBehaviour {
     [SerializeField]
-    SceneLoader sceneLoader;
+    private SceneLoader sceneLoader;
+
+    [SerializeField]
+    private GameObject game;
 
     void OnTriggerEnter2D(Collider2D collision) {
+        Destroy(game);
         sceneLoader.LoadGameOverScene();
     }
 }
