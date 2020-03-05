@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class LoseCollider : MonoBehaviour {
+public class BoundaryBottom : MonoBehaviour {
     [SerializeField]
     SceneLoader sceneLoader;
 
