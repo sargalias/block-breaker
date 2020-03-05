@@ -3,17 +3,14 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class Ball : MonoBehaviour {
-    [SerializeField]
-    private float speed = 10;
-
-    [SerializeField]
-    private Vector2 initialDirection;
-
-    [SerializeField]
-    private AudioClip[] audioClips;
+    [SerializeField] private float speed = 10;
+    [SerializeField] private Vector2 initialDirection;
+    [SerializeField] private AudioClip[] audioClips;
+    [SerializeField] private float randomFactor;
 
     private Paddle paddle;
     private AudioSource audioSource;
+    private Rigidbody2D rigidbody2D;
 
     private bool hasGameStarted = false;
 
@@ -22,17 +19,18 @@ public class Ball : MonoBehaviour {
         paddle = FindObjectOfType<Paddle>();
         SetStickToPaddle();
         audioSource = GetComponent<AudioSource>();
-    }
-
-    private void Update() {
-        if (Input.GetMouseButtonDown(0)) {
-            Launch();
-        }
+        rigidbody2D = gameObject.GetComponent<Rigidbody2D>();
     }
 
     private void SetDefaults() {
         if (initialDirection.magnitude == 0) {
             initialDirection = new Vector2(1, 1);
+        }
+    }
+
+    private void Update() {
+        if (Input.GetMouseButtonDown(0)) {
+            Launch();
         }
     }
 
@@ -48,15 +46,19 @@ public class Ball : MonoBehaviour {
         if (!hasGameStarted) {
             hasGameStarted = true;
             paddle.Moved -= OnPaddleMoved;
-            Rigidbody2D rb = gameObject.GetComponent<Rigidbody2D>();
-            rb.velocity = initialDirection.normalized * speed;
+            rigidbody2D.velocity = initialDirection.normalized * speed;
         }
     }
 
     private void OnCollisionEnter2D(Collision2D other) {
+        Vector2 velocityTweak = new Vector2(
+            Random.Range(0f, randomFactor),
+            Random.Range(0f, randomFactor)
+        );
         if (hasGameStarted) {
             AudioClip clip = audioClips[Random.Range(0, audioClips.Length)];
             audioSource.PlayOneShot(clip);
+            rigidbody2D.velocity += velocityTweak;
         }
     }
 }
