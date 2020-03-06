@@ -1,4 +1,5 @@
-# Text101
+# Block breaker
+
 [View project](https://sargalias-block-breaker.netlify.com/)
 
 A simple block breaker game. Based on the course [Complete C# Unity Developer 2D](https://www.udemy.com/unitycourse/).
